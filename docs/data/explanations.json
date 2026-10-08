@@ -1,0 +1,270 @@
+{
+  "version": "2026.09.0",
+  "rules": {
+    "BR-DE-1": {
+      "title": "Payment instructions are missing",
+      "explanation": "German e-invoices must state how the buyer is expected to pay (for example SEPA credit transfer, code 58).",
+      "field": "payment.meansCode",
+      "remediation": "Add a payment method and, for bank transfer, the bank account (IBAN) to the invoice.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Sales Invoice > Payment Method Code; the bank account comes from Company Information > Payments.",
+        "ODOO": "Invoice > Other Info > Recipient Bank / Payment Reference."
+      }
+    },
+    "BR-DE-2": {
+      "title": "Seller contact is missing",
+      "explanation": "German e-invoices must name a contact at the seller with name, phone and e-mail so that the buyer can clarify questions.",
+      "field": "seller.contact",
+      "remediation": "Maintain a contact person, phone number and e-mail address for the invoicing company.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > Contact Person, Phone No. and Email.",
+        "ODOO": "Settings > Companies > your company > Phone and Email; the salesperson on the invoice is used as contact."
+      }
+    },
+    "BR-DE-3": {
+      "title": "Seller city is missing",
+      "explanation": "The seller's postal address must include the city.",
+      "field": "seller.address.city",
+      "remediation": "Complete the company address.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > City.",
+        "ODOO": "Settings > Companies > your company > City."
+      }
+    },
+    "BR-DE-4": {
+      "title": "Seller post code is missing",
+      "explanation": "The seller's postal address must include the post code.",
+      "field": "seller.address.postalCode",
+      "remediation": "Complete the company address.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > Post Code.",
+        "ODOO": "Settings > Companies > your company > ZIP."
+      }
+    },
+    "BR-DE-5": {
+      "title": "Seller contact name is missing",
+      "explanation": "German e-invoices must name the seller's contact person or department.",
+      "field": "seller.contact.name",
+      "remediation": "Enter a contact person (or a department such as 'Accounts Receivable').",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > Contact Person.",
+        "ODOO": "Invoice > Salesperson (used as seller contact)."
+      }
+    },
+    "BR-DE-6": {
+      "title": "Seller telephone number is missing",
+      "explanation": "German B2B e-invoice rules require a telephone number for the seller's contact so the buyer can reach someone about the invoice.",
+      "field": "seller.contact.telephone",
+      "remediation": "Enter the phone number of the invoicing company or its accounts receivable team.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > Phone No.",
+        "ODOO": "Settings > Companies > your company > Phone."
+      }
+    },
+    "BR-DE-7": {
+      "title": "Seller e-mail address is missing",
+      "explanation": "German B2B e-invoice rules require an e-mail address for the seller's contact.",
+      "field": "seller.contact.email",
+      "remediation": "Enter the e-mail address of the invoicing company or its accounts receivable team.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > Email.",
+        "ODOO": "Settings > Companies > your company > Email."
+      }
+    },
+    "BR-DE-8": {
+      "title": "Buyer city is missing",
+      "explanation": "The buyer's postal address must include the city.",
+      "field": "buyer.address.city",
+      "remediation": "Complete the customer's address.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Customer Card > Address & Contact > City (or Bill-to City on the invoice).",
+        "ODOO": "Contacts > customer > City."
+      }
+    },
+    "BR-DE-9": {
+      "title": "Buyer post code is missing",
+      "explanation": "The buyer's postal address must include the post code.",
+      "field": "buyer.address.postalCode",
+      "remediation": "Complete the customer's address.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Customer Card > Address & Contact > Post Code (or Bill-to Post Code on the invoice).",
+        "ODOO": "Contacts > customer > ZIP."
+      }
+    },
+    "BR-DE-10": {
+      "title": "Delivery address city is missing",
+      "explanation": "When a delivery address is stated it must include the city.",
+      "field": "delivery.address.city",
+      "remediation": "Complete the ship-to address or remove it.",
+      "erpHints": { "BUSINESS_CENTRAL": "Sales Invoice > Shipping and Billing > Ship-to City." }
+    },
+    "BR-DE-11": {
+      "title": "Delivery address post code is missing",
+      "explanation": "When a delivery address is stated it must include the post code.",
+      "field": "delivery.address.postalCode",
+      "remediation": "Complete the ship-to address or remove it.",
+      "erpHints": { "BUSINESS_CENTRAL": "Sales Invoice > Shipping and Billing > Ship-to Post Code." }
+    },
+    "BR-DE-14": {
+      "title": "VAT rate is missing in the VAT breakdown",
+      "explanation": "Every VAT breakdown entry must state its VAT rate.",
+      "remediation": "Check the VAT posting setup of the items used on the invoice.",
+      "erpHints": { "BUSINESS_CENTRAL": "VAT Posting Setup > VAT %." }
+    },
+    "BR-DE-15": {
+      "title": "Buyer reference is missing",
+      "explanation": "German e-invoices must carry the buyer's reference (BT-10). For public sector buyers this is the Leitweg-ID; companies often ask for an order or cost centre number.",
+      "field": "buyerReference",
+      "remediation": "Enter the reference the customer asked you to use. Store it on the customer so it is filled automatically.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Sales Invoice > Your Reference (store a default on the Customer Card).",
+        "ODOO": "Invoice > Customer Reference."
+      }
+    },
+    "BR-DE-16": {
+      "title": "Seller VAT ID or tax number is missing",
+      "explanation": "The seller must be identified for VAT purposes by its VAT ID or its German tax number (Steuernummer).",
+      "field": "seller.vatId",
+      "remediation": "Maintain the company's VAT registration number.",
+      "erpHints": {
+        "BUSINESS_CENTRAL": "Company Information > VAT Registration No.",
+        "ODOO": "Settings > Companies > your company > Tax ID."
+      }
+    },
+    "BR-DE-17": {
+      "title": "Invoice type is not allowed in Germany",
+      "explanation": "XRechnung only allows the invoice types 326, 380, 381, 384, 389, 875, 876 and 877.",
+      "field": "type",
+      "remediation": "Use a standard invoice, credit note, corrected invoice, partial invoice or self-billed invoice."
+    },
+    "BR-DE-19": {
+      "title": "IBAN is not valid",
+      "explanation": "For SEPA credit transfer the payee account should be a valid IBAN.",
+      "field": "payment.payeeIban",
+      "remediation": "Check the bank account; IBANs have a country specific length and a checksum.",
+      "erpHints": { "BUSINESS_CENTRAL": "Company Information > Payments > IBAN (or Bank Accounts > IBAN)." }
+    },
+    "BR-DE-23-a": {
+      "title": "Bank account is missing for bank transfer",
+      "explanation": "When the payment method is credit transfer (code 30 or 58), the payee's bank account must be stated.",
+      "field": "payment.payeeIban",
+      "remediation": "Add the company's IBAN or choose a different payment method.",
+      "erpHints": { "BUSINESS_CENTRAL": "Company Information > Payments > IBAN." }
+    },
+    "BR-DE-26": {
+      "title": "Corrected invoice without reference",
+      "explanation": "A corrected invoice should reference the invoice it corrects.",
+      "field": "references.precedingInvoices",
+      "remediation": "Add the number and date of the original invoice."
+    },
+    "BR-DE-27": {
+      "title": "Seller telephone number looks invalid",
+      "explanation": "The telephone number should contain at least three digits.",
+      "field": "seller.contact.telephone",
+      "remediation": "Enter a complete phone number including area code.",
+      "erpHints": { "BUSINESS_CENTRAL": "Company Information > Phone No." }
+    },
+    "BR-DE-28": {
+      "title": "Seller e-mail address looks invalid",
+      "explanation": "The e-mail address must have the form name@domain.tld.",
+      "field": "seller.contact.email",
+      "remediation": "Correct the e-mail address.",
+      "erpHints": { "BUSINESS_CENTRAL": "Company Information > Email." }
+    },
+    "PL-FA3-SELLER-NIP": { "title": "Seller NIP is missing or invalid", "explanation": "KSeF invoices are issued under the seller's Polish tax identification number (NIP): 10 digits with a valid checksum.", "field": "seller.vatId", "remediation": "Maintain the company's NIP (a VAT ID with PL prefix is accepted).", "erpHints": { "BUSINESS_CENTRAL": "Company Information > VAT Registration No." } },
+    "PL-FA3-BUYER-NIP": { "title": "Buyer NIP is invalid", "explanation": "The buyer's NIP fails the checksum; KSeF would deliver the invoice to the wrong taxpayer or reject it.", "field": "buyer.vatId", "remediation": "Correct the customer's NIP.", "erpHints": { "BUSINESS_CENTRAL": "Customer Card > VAT Registration No." } },
+    "PL-FA3-BUYER-ID": { "title": "Buyer has no NIP", "explanation": "Without a NIP the invoice is issued as a consumer invoice (BrakID) and is not delivered to a business KSeF account.", "field": "buyer.vatId", "remediation": "Add the customer's NIP if the customer is a business." },
+    "PL-FA3-RATE": { "title": "VAT rate not allowed in Poland", "explanation": "KSeF accepts Polish rates (23, 8, 5 and the reduced/flat rates) and the codes 0 KR, 0 WDT, 0 EX, zw, oo, np I and np II only.", "remediation": "Use a Polish VAT posting setup for this line or map the tax code in the connection settings." },
+    "PL-FA3-EXEMPTION": { "title": "Legal basis of the VAT exemption is missing", "explanation": "Exempt sales must state the legal provision (field P_19A), e.g. art. 43 ust. 1 pkt 37 ustawy o VAT.", "remediation": "Add the exemption reason text to the VAT breakdown or the VAT posting setup." },
+    "PL-FA3-CURRENCY": { "title": "Foreign currency invoice needs PLN VAT amounts", "explanation": "FA(3) requires the VAT per rate converted to PLN when the invoice is issued in another currency.", "field": "currency", "remediation": "Issue the invoice in PLN for now; foreign currency support with exchange rates is planned." },
+    "PL-FA3-CORRECTION": { "title": "Corrected invoice reference is incomplete", "explanation": "A correcting invoice (KOR) must state the number and issue date of the corrected invoice and, if it was issued in KSeF, its KSeF number.", "field": "references.precedingInvoices", "remediation": "Reference the original invoice on the credit memo.", "erpHints": { "BUSINESS_CENTRAL": "Sales Credit Memo > Applies-to Doc. No. / Corrected Invoice No." } },
+    "PL-FA3-SPLIT-PAYMENT": { "title": "Check the split payment obligation", "explanation": "Invoices of 15,000 PLN or more for goods and services listed in annex 15 of the VAT Act must carry the split payment (MPP) annotation.", "field": "totals.taxInclusive", "remediation": "Confirm with finance whether annex 15 items are invoiced." },
+    "PL-FA3-ADDRESS": { "title": "Street address is missing", "explanation": "FA(3) requires the address line (AdresL1) for seller and buyer.", "remediation": "Complete the address in the source system." },
+    "CT-IN-BANK-CHANGED": { "title": "Supplier bank account changed", "explanation": "The payment account on this invoice differs from the supplier's previous invoice. Changed bank details are the most common invoice fraud pattern (business e-mail compromise).", "field": "payment.payeeIban", "remediation": "Call the supplier on a number you already know - not one from this invoice or its e-mail - and confirm the new account before approving." },
+    "CT-IN-IBAN": { "title": "Payee IBAN is invalid", "explanation": "The IBAN checksum is wrong; the bank would reject the payment or it could reach the wrong account.", "field": "payment.payeeIban", "remediation": "Ask the supplier for a corrected invoice." },
+    "CT-IN-BUYER": { "title": "Invoice is addressed to another company", "explanation": "The buyer on the invoice is not the company that received it. Paying it could settle another company's bill, and input VAT may only be claimed on invoices addressed to you.", "remediation": "Reject the invoice or forward it to the company it is addressed to." },
+    "CT-IN-POSSIBLE-DUPLICATE": { "title": "Possible duplicate invoice", "explanation": "Another invoice from this supplier has the same date and amount under a different number.", "field": "totals.taxInclusive", "remediation": "Check that both invoices are for different deliveries before approving." },
+    "CT-ATT-EXECUTABLE": { "title": "Attachment is a program", "explanation": "The attachment is an executable program or has the file extension of one. Programs are never forwarded to buyers or authorities.", "remediation": "Remove the attachment and attach the document itself (PDF, image or spreadsheet)." },
+    "CT-ATT-ACTIVE-CONTENT": { "title": "Attachment contains scripts or macros", "explanation": "The PDF contains JavaScript or launch actions, or the spreadsheet contains macros. Active content is a common malware carrier and is refused.", "remediation": "Export the document again without scripts or macros (for example 'print to PDF') and resubmit." },
+    "CT-ATT-TYPE": { "title": "Attachment content does not match its type", "explanation": "The attachment is declared as one file type but contains another. Receivers open files by their declared type, which is how disguised malware spreads.", "remediation": "Attach the file with its correct type, or convert it to the declared format." },
+    "CT-ATT-BASE64": { "title": "Attachment cannot be decoded", "explanation": "The embedded attachment is not valid Base64 and would be unreadable for the recipient.", "remediation": "Check the attachment export of the source system." },
+    "CT-ATT-EMBEDDED-FILES": { "title": "PDF carries embedded files", "explanation": "The PDF contains embedded files (for example a ZUGFeRD XML). They are forwarded but not inspected by the platform." },
+    "CT-ATT-SIZE": { "title": "Attachment is very large", "explanation": "Many receiving access points refuse messages above 10 MB.", "remediation": "Reduce the attachment size, for example by lowering image resolution." },
+    "CT-ATT-URI": { "title": "External document link is not a web address", "explanation": "External supporting documents (BT-124) must be http(s) URLs; other schemes can execute code or read local files at the recipient.", "remediation": "Use an https link to the document." },
+    "CT-ATT-FILENAME": { "title": "Attachment file name is not a plain name", "explanation": "File names with paths or control characters can overwrite files at the recipient.", "remediation": "Use a simple file name such as timesheet-2026-09.pdf." },
+    "CT-GEN-FAILED": { "title": "The legal document could not be generated", "explanation": "The invoice data cannot be expressed in the required format; nothing was sent.", "remediation": "Fix the findings listed with this invoice and submit a corrected version." },
+    "BR-02": { "title": "Invoice number is missing", "explanation": "Every invoice needs a unique number.", "field": "invoiceNumber", "remediation": "Post the invoice so that it gets a number from the number series." },
+    "BR-03": { "title": "Invoice date is missing", "explanation": "Every invoice needs an issue date.", "field": "issueDate", "remediation": "Set the posting/document date of the invoice." },
+    "BR-04": { "title": "Invoice type is missing", "explanation": "The document must say whether it is an invoice, credit note etc.", "field": "type", "remediation": "Set the document type." },
+    "BR-05": { "title": "Invoice currency is missing", "explanation": "Every invoice must state its currency.", "field": "currency", "remediation": "Set the currency (for local currency the ERP may leave it empty - the connector maps it)." },
+    "BR-06": { "title": "Seller name is missing", "explanation": "The seller's legal name is mandatory.", "field": "seller.name", "remediation": "Maintain the company name.", "erpHints": { "BUSINESS_CENTRAL": "Company Information > Name." } },
+    "BR-07": { "title": "Buyer name is missing", "explanation": "The buyer's legal name is mandatory.", "field": "buyer.name", "remediation": "Maintain the customer name." },
+    "BR-08": { "title": "Seller address is missing", "explanation": "The seller's postal address is mandatory.", "field": "seller.address", "remediation": "Maintain the company address." },
+    "BR-09": { "title": "Seller country is missing", "explanation": "The seller's address must include the country code.", "field": "seller.address.countryCode", "remediation": "Set the country/region code of the company.", "erpHints": { "BUSINESS_CENTRAL": "Company Information > Country/Region Code." } },
+    "BR-10": { "title": "Buyer address is missing", "explanation": "The buyer's postal address is mandatory.", "field": "buyer.address", "remediation": "Maintain the customer's address." },
+    "BR-11": { "title": "Buyer country is missing", "explanation": "The buyer's address must include the country code.", "field": "buyer.address.countryCode", "remediation": "Set the customer's country/region code.", "erpHints": { "BUSINESS_CENTRAL": "Customer Card > Country/Region Code." } },
+    "BR-16": { "title": "Invoice has no lines", "explanation": "An invoice needs at least one line.", "field": "lines", "remediation": "Add at least one invoice line." },
+    "BR-21": { "title": "Line number is missing", "explanation": "Each invoice line needs an identifier.", "remediation": "This is normally generated by the connector; contact support if it persists." },
+    "BR-22": { "title": "Line quantity is missing", "explanation": "Each invoice line needs an invoiced quantity.", "remediation": "Enter a quantity on the line." },
+    "BR-23": { "title": "Unit of measure is missing", "explanation": "Each invoice line needs a unit of measure from the UN/ECE Recommendation 20 list.", "remediation": "Set a unit of measure and map it to an international code (e.g. PCS -> H87, HOUR -> HUR).", "erpHints": { "BUSINESS_CENTRAL": "Units of Measure > International Standard Code." } },
+    "BR-25": { "title": "Item name is missing", "explanation": "Each invoice line needs an item name.", "remediation": "Enter a description on the line." },
+    "BR-26": { "title": "Item price is missing", "explanation": "Each invoice line needs a net unit price.", "remediation": "Enter a unit price on the line." },
+    "BR-27": { "title": "Negative item price", "explanation": "The net item price must not be negative. Use a credit note, a negative quantity or an allowance instead.", "remediation": "Use a positive price with a negative quantity, or issue a credit note." },
+    "BR-CO-10": { "title": "Line total does not add up", "explanation": "The invoice's sum of line amounts must equal the sum of all line net amounts.", "field": "totals.lineNetTotal", "remediation": "Check rounding of line amounts in the source system." },
+    "BR-CO-13": { "title": "Net total does not add up", "explanation": "Total without VAT must equal line total minus allowances plus charges.", "field": "totals.taxExclusive", "remediation": "Check document level discounts and charges." },
+    "BR-CO-14": { "title": "VAT total does not add up", "explanation": "The invoice VAT total must equal the sum of the VAT breakdown.", "field": "totals.taxTotal", "remediation": "Check VAT rounding: EN 16931 rounds VAT per rate, not per line." },
+    "BR-CO-15": { "title": "Gross total does not add up", "explanation": "Total with VAT must equal total without VAT plus VAT total.", "field": "totals.taxInclusive", "remediation": "Check the invoice totals in the source system." },
+    "BR-CO-16": { "title": "Amount due does not add up", "explanation": "Amount due must equal total with VAT minus prepaid amount plus rounding.", "field": "totals.payable", "remediation": "Check prepayments and rounding on the invoice." },
+    "BR-CO-17": { "title": "VAT amount is not rate x taxable amount", "explanation": "For each VAT rate, VAT must equal the taxable amount times the rate, rounded to two decimals. ERPs that round VAT per line can differ by a few cents.", "remediation": "Configure the ERP to calculate VAT per document and rate (in Business Central: VAT Rounding Type / 'VAT Calculation per Document')." },
+    "BR-CO-18": { "title": "VAT breakdown is missing", "explanation": "Every invoice needs at least one VAT breakdown entry per VAT category and rate used.", "field": "taxes", "remediation": "Check the VAT setup of the items and document discounts." },
+    "BR-CO-25": { "title": "Due date or payment terms are missing", "explanation": "When an amount is due, the invoice must state a due date or payment terms.", "field": "dueDate", "remediation": "Set payment terms on the customer or a due date on the invoice.", "erpHints": { "BUSINESS_CENTRAL": "Customer Card > Payment Terms Code." } },
+    "BR-CO-26": { "title": "Seller cannot be identified", "explanation": "The seller must have a VAT ID, a legal registration number or a party identifier.", "field": "seller.vatId", "remediation": "Maintain the company's VAT registration number.", "erpHints": { "BUSINESS_CENTRAL": "Company Information > VAT Registration No." } },
+    "BR-S-02": { "title": "Seller VAT ID is missing", "explanation": "Invoices with standard rated VAT must state the seller's VAT ID or tax registration number.", "field": "seller.vatId", "remediation": "Maintain the company's VAT registration number." },
+    "BR-S-05": { "title": "Standard rated line without VAT rate", "explanation": "A standard rated line (category S) needs a VAT rate above zero.", "remediation": "Check the VAT posting setup / tax of the item." },
+    "BR-S-08": { "title": "VAT taxable amount does not add up", "explanation": "For each standard VAT rate, the taxable amount must equal the sum of lines and allowances/charges with that rate.", "remediation": "Check which VAT rate document discounts are posted with." },
+    "BR-AE-02": { "title": "VAT IDs missing for reverse charge", "explanation": "Reverse charge invoices must state both the seller's and the buyer's VAT ID.", "remediation": "Maintain the customer's VAT registration number.", "erpHints": { "BUSINESS_CENTRAL": "Customer Card > Invoicing > VAT Registration No." } },
+    "BR-AE-10": { "title": "Reverse charge reason is missing", "explanation": "Reverse charge VAT breakdowns need an exemption reason text or code (VATEX-EU-AE).", "remediation": "The platform adds the VATEX code automatically; for a text, maintain it on the VAT posting setup." },
+    "BR-E-10": { "title": "VAT exemption reason is missing", "explanation": "VAT exempt amounts need the legal reason for the exemption (text or VATEX code).", "remediation": "Add the exemption reason, e.g. the relevant article of the VAT directive." },
+    "BR-IC-02": { "title": "VAT IDs missing for intra-community supply", "explanation": "Intra-community supplies must state both the seller's and the buyer's VAT ID.", "remediation": "Maintain the customer's VAT registration number." },
+    "BR-IC-11": { "title": "Delivery date missing for intra-community supply", "explanation": "Intra-community supplies need the actual delivery date or the invoicing period.", "field": "delivery.actualDeliveryDate", "remediation": "Set the shipment date on the invoice." },
+    "BR-49": { "title": "Payment method code is missing", "explanation": "Payment instructions need a payment method code (e.g. 58 SEPA credit transfer).", "field": "payment.meansCode", "remediation": "Map the payment method to an UNTDID 4461 code in the connector settings." },
+    "BR-61": { "title": "Bank account is missing for bank transfer", "explanation": "For credit transfers the payee's account identifier is mandatory.", "field": "payment.payeeIban", "remediation": "Add the company's IBAN." },
+    "BR-CL-14": { "title": "Unknown country code", "explanation": "Country codes must be ISO 3166-1 alpha-2 codes such as DE, FR or PL.", "remediation": "Map the ERP country code to the ISO code." },
+    "BR-CL-23": { "title": "Unknown unit of measure", "explanation": "Units must come from UN/ECE Recommendation 20 (e.g. C62 one, H87 piece, HUR hour, KGM kilogram).", "remediation": "Map your internal units to international unit codes.", "erpHints": { "BUSINESS_CENTRAL": "Units of Measure > International Standard Code." } },
+    "BR-CL-25": { "title": "Unknown electronic address scheme", "explanation": "Electronic addresses must use a scheme from the Peppol EAS list (e.g. 0088 GLN, 9930 German VAT ID, 0204 Leitweg-ID).", "remediation": "Check the scheme of the customer's e-invoicing address." },
+    "PEPPOL-EN16931-R002": { "title": "Too many invoice notes", "explanation": "Peppol allows only one invoice note unless both parties are German.", "field": "notes", "remediation": "Combine the notes into one." },
+    "PEPPOL-EN16931-R003": { "title": "Buyer reference or order number is missing", "explanation": "Peppol requires either the buyer's reference or the purchase order number so the buyer can route the invoice internally.", "field": "buyerReference", "remediation": "Enter the customer's order number or their reference.", "erpHints": { "BUSINESS_CENTRAL": "Sales Invoice > External Document No. (PO) or Your Reference." } },
+    "PEPPOL-EN16931-R008": { "title": "Empty element", "explanation": "Peppol documents must not contain empty elements.", "remediation": "This indicates a connector mapping issue; contact support." },
+    "PEPPOL-EN16931-R010": { "title": "Buyer's Peppol address is missing", "explanation": "To deliver via Peppol, the buyer's electronic address (Peppol participant ID) is required.", "field": "buyer.electronicAddress", "remediation": "Store the customer's Peppol ID (e.g. 0088:4012345000009 or 9930:DE123456789) on the customer.", "erpHints": { "BUSINESS_CENTRAL": "Customer Card > GLN or the Peppol ID field configured in the connector mapping." } },
+    "PEPPOL-EN16931-R020": { "title": "Seller's Peppol address is missing", "explanation": "The seller's electronic address (Peppol participant ID) is required.", "field": "seller.electronicAddress", "remediation": "Configure the legal entity's Peppol ID in the platform." },
+    "PEPPOL-EN16931-R061": { "title": "Mandate reference missing for direct debit", "explanation": "SEPA direct debit requires the mandate reference.", "field": "payment.mandateReference", "remediation": "Maintain the SEPA mandate for the customer." },
+    "PEPPOL-EN16931-R120": { "title": "Line amount does not match quantity x price", "explanation": "The line net amount must equal quantity x price +/- line discounts.", "remediation": "Check line discounts and rounding in the source system." },
+    "CT-CALC-LINE-NET": { "title": "Line amount does not match quantity x price", "explanation": "The line net amount must equal quantity x net price / base quantity plus line charges minus line allowances.", "remediation": "Check line discounts, price units and rounding in the source system." },
+    "CT-CALC-TAX-UNUSED": { "title": "Unused VAT breakdown entry", "explanation": "The VAT breakdown contains a rate that no line or discount uses.", "field": "taxes", "remediation": "Check the VAT setup of the invoice." },
+    "CT-FMT-IBAN": { "title": "IBAN is not valid", "explanation": "The IBAN checksum or length is wrong, so the buyer's payment would fail.", "field": "payment.payeeIban", "remediation": "Correct the bank account.", "erpHints": { "BUSINESS_CENTRAL": "Company Information > Payments > IBAN." } },
+    "CT-FMT-DECIMALS": { "title": "Amount has more than two decimals", "explanation": "E-invoice amounts may have at most two decimals.", "remediation": "Round amounts to cents in the source system; unit prices may keep more decimals." },
+    "CT-SEC-CARD-PAN": { "title": "Full card number must not be sent", "explanation": "Only the last 4-6 digits of a payment card may appear on an invoice.", "field": "payment.cardLastDigits", "remediation": "Mask the card number in the source system." }
+  },
+  "aliases": {
+    "DE-R-001": "BR-DE-1",
+    "DE-R-002": "BR-DE-2",
+    "DE-R-003": "BR-DE-3",
+    "DE-R-004": "BR-DE-4",
+    "DE-R-005": "BR-DE-5",
+    "DE-R-006": "BR-DE-6",
+    "DE-R-007": "BR-DE-7",
+    "DE-R-008": "BR-DE-8",
+    "DE-R-009": "BR-DE-9",
+    "DE-R-010": "BR-DE-10",
+    "DE-R-011": "BR-DE-11",
+    "DE-R-014": "BR-DE-14",
+    "DE-R-015": "BR-DE-15",
+    "DE-R-016": "BR-DE-16",
+    "DE-R-017": "BR-DE-17",
+    "DE-R-019": "BR-DE-19",
+    "DE-R-023-1": "BR-DE-23-a",
+    "DE-R-026": "BR-DE-26",
+    "DE-R-027": "BR-DE-27",
+    "DE-R-028": "BR-DE-28"
+  }
+}

@@ -1,0 +1,14 @@
+# Installed and downloaded tooling - reproducible from package.json and the build scripts
+node_modules/
+vendor/
+
+# Third-party sources extracted at build time; only the compiled output in docs/ is published
+build/xslt/
+build/xsd/
+
+# The official KoSIT test suite is downloaded by CI and by hand, not redistributed here
+test/kosit/
+test/kosit.zip
+
+# Local test artefacts
+test/shot-*.png

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XRechnung prüfen – kostenloser E-Rechnungs-Validator (EN 16931) | E-Invoice Checker</title>
+  <meta name="description" content="XRechnung und E-Rechnungen kostenlos prüfen: UBL und CII gegen die offiziellen Regelwerke EN 16931 und XRechnung 3.0.2 – direkt im Browser. Ihre Rechnung wird nicht hochgeladen.">
+  <!-- Nothing on this page may load from another origin: the privacy promise below depends on it. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; form-action 'none'; base-uri 'self'; object-src 'none'">
+  <link rel="canonical" href="https://rmandera.github.io/e-invoice-checker/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rmandera.github.io/e-invoice-checker/">
+  <meta property="og:title" content="XRechnung prüfen – kostenlos, direkt im Browser">
+  <meta property="og:description" content="E-Rechnungen gegen EN 16931 und XRechnung 3.0.2 prüfen. Die Rechnung verlässt Ihren Computer nicht.">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F2A44'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script defer src="lib/SaxonJS2.rt.js"></script>
+  <script defer src="js/checker-core.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="band" aria-hidden="true"></div>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./"><span class="mark" aria-hidden="true"></span><span>E-Invoice Checker</span></a>
+      <div class="lang" role="group" aria-label="Sprache / Language">
+        <button type="button" data-lang="de" aria-pressed="true">DE</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1 data-i18n="h1">XRechnung &amp; E-Rechnung kostenlos prüfen</h1>
+      <p class="lead" data-i18n="lead">Prüfen Sie XRechnung- und EN-16931-Rechnungen in UBL und CII gegen die offiziellen Regelwerke – direkt in Ihrem Browser.</p>
+      <p class="promise">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="2"/><rect x="5" y="10" width="14" height="10" rx="2" fill="currentColor"/></svg>
+        <span data-i18n="promise">Ihre Rechnung verlässt Ihren Computer nicht. Sie wird nicht hochgeladen und nicht gespeichert.</span>
+      </p>
+    </section>
+
+    <section class="tool" aria-live="polite">
+      <label class="drop" id="drop" tabindex="0">
+        <input type="file" id="file" accept=".xml,application/xml,text/xml,.pdf" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0l-4 4m4-4l4 4M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <strong data-i18n="dropTitle">XML-Rechnung hierher ziehen</strong>
+        <span data-i18n="dropSub">oder klicken, um eine Datei auszuwählen</span>
+      </label>
+      <p class="status" id="status" role="status"></p>
+      <div id="result" hidden></div>
+    </section>
+
+    <section class="pilot" id="pilot">
+      <h2 data-i18n="pilotTitle">Alle Rechnungen automatisch – auch für Polen und Frankreich</h2>
+      <p data-i18n="pilotText">Hinter diesem Prüfwerkzeug steht eine Plattform, die Rechnungen aus Ihrem ERP-System in das Format jedes Landes umwandelt, vor dem Versand prüft und an das richtige Netzwerk übergibt – XRechnung, Peppol und das polnische KSeF. Für ausgewählte Unternehmen gibt es ein kostenloses Pilotprogramm.</p>
+      <a class="button" id="pilotLink" href="#" data-i18n="pilotButton">Am kostenlosen Pilot teilnehmen</a>
+    </section>
+
+    <section class="about">
+      <div>
+        <h2 data-i18n="whatTitle">Was wird geprüft?</h2>
+        <ul>
+          <li data-i18n="what1"><b>Struktur</b> gegen die offiziellen XML-Schemas (UBL 2.1, UN/CEFACT CII D16B).</li>
+          <li data-i18n="what2"><b>Geschäftsregeln der EN 16931</b>, der europäischen Norm für E-Rechnungen.</li>
+          <li data-i18n="what3"><b>XRechnung 3.0.2</b> – die zusätzlichen deutschen Regeln (BR-DE), wenn die Rechnung sich als XRechnung ausweist.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="howTitle">Wie funktioniert das ohne Upload?</h2>
+        <p data-i18n="howText">Die offiziellen Regelwerke werden einmalig in Ihren Browser geladen. Die Prüfung läuft dann vollständig auf Ihrem Gerät – dieselben Regeln, die auch der offizielle Validator der KoSIT verwendet. Sie können die Seite nach dem Laden sogar offline nutzen.</p>
+      </div>
+      <div>
+        <h2 data-i18n="whoTitle">Wer braucht das?</h2>
+        <p data-i18n="whoText">Seit dem 1. Januar 2025 müssen alle Unternehmen in Deutschland E-Rechnungen empfangen können. Ab 2027 wird der Versand für Unternehmen mit mehr als 800.000 € Vorjahresumsatz Pflicht, ab 2028 für alle. Wer eine E-Rechnung erhält oder versendet, sollte wissen, ob sie gültig ist.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-inner">
+      <span data-i18n="footNote">Kein Ersatz für steuerliche Beratung. Geprüft wird die formale Gültigkeit, nicht der Inhalt.</span>
+      <nav>
+        <a href="impressum.html" data-i18n="imprint">Impressum</a>
+        <a href="datenschutz.html" data-i18n="privacy">Datenschutz</a>
+        <a href="lizenzen.html" data-i18n="licences">Lizenzen</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# Every change is checked against the full official KoSIT XRechnung test suite before it can go live.
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  official-test-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Download the official XRechnung 3.0.2 test suite
+        run: |
+          curl -sSfL -o test/kosit.zip \
+            https://github.com/itplr-kosit/xrechnung-testsuite/releases/download/v2026-08-31/xrechnung-3.0.2-testsuite-2026-08-31.zip
+          mkdir -p test/kosit && unzip -q test/kosit.zip -d test/kosit
+
+      - name: Every official instance valid, every broken sample caught
+        run: npm test
+
+      # The pages must never ship with the address placeholder: a German website without a complete
+      # Impressum invites a formal legal warning.
+      - name: Impressum complete
+        run: '! grep -rl "\[\[ADRESSE\]\]" docs'
