@@ -34,6 +34,12 @@ if ! gh repo view "$REPO" >/dev/null 2>&1; then
 fi
 git push -u origin main
 
+# The repository is kept private until this point as an off-machine backup. GitHub Pages is free only for public
+# repositories, and the checks above are what make it fit to be seen.
+if [ "$(gh repo view "$REPO" --json visibility --jq .visibility)" != "PUBLIC" ]; then
+  gh repo edit "$REPO" --visibility public --accept-visibility-change-consequences
+fi
+
 # Serve the docs/ folder of main. Creating Pages twice is an error, so update when it already exists.
 if gh api "repos/$REPO/pages" >/dev/null 2>&1; then
   gh api -X PUT "repos/$REPO/pages" -f "source[branch]=main" -f "source[path]=/docs" >/dev/null
