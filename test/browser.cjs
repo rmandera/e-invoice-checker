@@ -1,6 +1,8 @@
 // Drives the installed Microsoft Edge through the real page: loads it, runs a check, and reports the outcome.
 const puppeteer = require("puppeteer-core");
 const fs = require("fs");
+// BASE=https://rmandera.github.io/e-invoice-checker/ runs the same checks against the live site.
+const BASE = process.env.BASE || "http://127.0.0.1:8765/";
 const EDGE = ["C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe", "C:/Program Files/Microsoft/Edge/Application/msedge.exe"].find(fs.existsSync);
 (async () => {
   const browser = await puppeteer.launch({ executablePath: EDGE, headless: "new", args: ["--no-first-run"] });
@@ -14,9 +16,9 @@ const EDGE = ["C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe", "C
     page.on("pageerror", (e) => problems.push("pageerror: " + e.message));
     page.on("requestfailed", (r) => problems.push(`requestfailed: ${r.url()} ${r.failure()?.errorText}`));
     const external = [];
-    page.on("request", (r) => { if (!r.url().startsWith("http://127.0.0.1:8765/") && !r.url().startsWith("data:")) external.push(r.url()); });
+    page.on("request", (r) => { if (!r.url().startsWith(BASE) && !r.url().startsWith("data:")) external.push(r.url()); });
     const t = Date.now();
-    await page.goto(`http://127.0.0.1:8765/index.html?selftest=${file}`, { waitUntil: "load" });
+    await page.goto(`${BASE}index.html?selftest=${file}`, { waitUntil: "load" });
     let outcome = null;
     try {
       await page.waitForSelector("body[data-selftest]", { timeout: 120000 });
