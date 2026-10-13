@@ -54,7 +54,10 @@ const deps = {
   await expect(path.join(s, "valid-xrechnung-ubl.xml"), "valid");
   await expect(path.join(s, "broken-no-seller-phone.xml"), "invalid", "BR-DE-6");
   await expect(path.join(s, "broken-structure.xml"), "invalid", "SCHEMA");
-  console.log(`platform-generated and deliberately broken samples: ${3 - (wrong - before)}/3 correct`);
+  // The official suite contains no credit notes, so this one (the demo invoice re-expressed as a UBL
+  // CreditNote, type 381) is what covers that document type.
+  await expect(path.join(s, "valid-xrechnung-creditnote-ubl.xml"), "valid");
+  console.log(`platform-generated, credit note and deliberately broken samples: ${4 - (wrong - before)}/4 correct`);
 
   process.exit(wrong ? 1 : 0);
 })();

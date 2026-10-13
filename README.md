@@ -21,9 +21,9 @@ lives in Microsoft Dynamics 365 Business Central and Odoo.
 ## Verified against the official test suite
 
 `npm test` checks every standard instance of the official
-[KoSIT XRechnung 3.0.2 test suite](https://github.com/itplr-kosit/xrechnung-testsuite) — UBL and CII,
-invoices and credit notes — and expects each to be valid, plus known-broken samples that must be caught for the
-right reason. `npm run test:browser` runs the same checks through the real page in Microsoft Edge and fails if the
+[KoSIT XRechnung 3.0.2 test suite](https://github.com/itplr-kosit/xrechnung-testsuite) — 66 invoices in UBL
+and CII — and expects each to be valid. The suite contains no credit notes, so a UBL credit note (type 381) is
+checked separately, along with known-broken samples that must be caught for the right reason. `npm run test:browser` runs the same checks through the real page in Microsoft Edge and fails if the
 page makes a single request to another origin.
 
 ## How it works
