@@ -12,3 +12,5 @@ test/kosit.zip
 
 # Local test artefacts
 test/shot-*.png
+test/zugferd/
+test/shot-pdf.cjs

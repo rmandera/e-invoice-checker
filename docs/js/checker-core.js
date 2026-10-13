@@ -45,7 +45,25 @@
       ? (body.match(/<(?:[\w.\-]+:)?CustomizationID[^>]*>\s*([^<]+?)\s*</) || [])[1]
       : (body.match(/GuidelineSpecifiedDocumentContextParameter>[\s\S]*?<(?:[\w.\-]+:)?ID[^>]*>\s*([^<]+?)\s*</) || [])[1];
     const isXRechnung = !!spec && /xrechnung/i.test(spec);
-    return Object.assign({ recognised: true, specification: spec || null, isXRechnung }, format);
+    // XRechnung 2.x was superseded on 1 February 2024; documents still declaring it fail the 3.0 rules for reasons
+    // the visitor deserves to be told in words, not only through rule codes.
+    const version = isXRechnung ? (spec.match(/xrechnung_(\d+(?:\.\d+)*)/i) || [])[1] || null : null;
+    const outdatedXRechnung = !!version && parseInt(version, 10) < 3;
+    return Object.assign({ recognised: true, specification: spec || null, isXRechnung, profile: profileOf(spec),
+      xrechnungVersion: version, outdatedXRechnung }, format);
+  }
+
+  /**
+   * The ZUGFeRD / Factur-X profile named by the specification identifier, for display - and to recognise the two
+   * profiles that do not carry a complete invoice. MINIMUM and BASIC WL lack the line items EN 16931 requires,
+   * and since 2025 the German tax administration does not treat them as e-invoices at all.
+   */
+  function profileOf(spec) {
+    if (!spec) return null;
+    if (/xrechnung/i.test(spec)) return "XRechnung";
+    const m = spec.match(/:(minimum|basicwl|basic|extended)\s*$/i);
+    if (m) return { minimum: "MINIMUM", basicwl: "BASIC WL", basic: "BASIC", extended: "EXTENDED" }[m[1].toLowerCase()];
+    return /en16931/i.test(spec) ? "EN 16931" : null;
   }
 
   /** "/*:Invoice[namespace-uri()='...'][1]/*:AccountingSupplierParty[...][1]" -> "/Invoice/AccountingSupplierParty" */
@@ -86,7 +104,14 @@
     const started = Date.now();
     const format = detect(xml);
     if (!format || !format.recognised) {
-      return { status: "unsupported", format: format, schemaErrors: [], findings: [], ruleSets: [], ms: Date.now() - started };
+      // ZUGFeRD 1.0 is recognisable but no longer an e-invoice in Germany; say so instead of "unknown format".
+      const status = format && format.root === "CrossIndustryDocument" ? "zugferd1" : "unsupported";
+      return { status: status, format: format, schemaErrors: [], findings: [], ruleSets: [], ms: Date.now() - started };
+    }
+    if (format.profile === "MINIMUM" || format.profile === "BASIC WL") {
+      // Validating these against EN 16931 would only list the line items they never contain. The useful answer
+      // is that the profile itself is the problem.
+      return { status: "not-einvoice", format: format, schemaErrors: [], findings: [], ruleSets: [], ms: Date.now() - started };
     }
 
     const schemaErrors = await deps.validateSchema(xml, format.schema);

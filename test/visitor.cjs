@@ -24,7 +24,12 @@ const CASES = [
   ["XML that is not an invoice", make("order.xml", '<?xml version="1.0"?><Order xmlns="urn:example:order"><Id>1</Id></Order>'), "verdict:unsupported"],
   ["text renamed to .xml", make("notes.xml", "hello, this is not xml"), "status:This file is not XML"],
   ["empty file", make("empty.xml", ""), "status:This file is not XML"],
-  ["PDF", make("invoice.pdf", "%PDF-1.7\n%%EOF\n"), "status:PDF files are not supported"],
+  ["ZUGFeRD PDF (EN 16931)", path.join(__dirname, "zugferd", "valid", "EN16931_Einfach.pdf"), "verdict:valid"],
+  ["ZUGFeRD PDF credit note", path.join(__dirname, "zugferd", "valid", "EN16931_Gutschrift.pdf"), "verdict:valid"],
+  ["outdated XRechnung 2.1 PDF", path.join(__dirname, "zugferd", "outdated", "XRECHNUNG_Einfach.pdf"), "verdict:invalid"],
+  ["ZUGFeRD 1.0 PDF", path.join(__dirname, "zugferd", "zugferd1", "ZUGFeRD_1p0_COMFORT_Einfach.pdf"), "verdict:zugferd1"],
+  ["MINIMUM profile PDF", path.join(__dirname, "zugferd", "not-einvoice", "Facture_FR_MINIMUM.pdf"), "verdict:not-einvoice"],
+  ["plain PDF without XML", make("invoice.pdf", "%PDF-1.7\n1 0 obj << /Type /Catalog >> endobj\n%%EOF\n"), "status:This PDF contains no XML invoice"],
 ];
 
 async function outcome(page) {

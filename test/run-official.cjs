@@ -5,6 +5,7 @@ const path = require("path");
 const SaxonJS = require("saxon-js");
 const { validateXML } = require("xmllint-wasm");
 const core = require("../docs/js/checker-core.js");
+const pdf = require("../docs/js/pdf-extract.js");
 
 const SITE = path.join(__dirname, "..", "docs");
 const rulesCache = {};
@@ -58,6 +59,29 @@ const deps = {
   // CreditNote, type 381) is what covers that document type.
   await expect(path.join(s, "valid-xrechnung-creditnote-ubl.xml"), "valid");
   console.log(`platform-generated, credit note and deliberately broken samples: ${4 - (wrong - before)}/4 correct`);
+
+  // ZUGFeRD / Factur-X hybrid PDFs from the public ZUGFeRD corpus (test/fetch-zugferd-corpus.sh).
+  const Z = path.join(__dirname, "zugferd");
+  if (fs.existsSync(Z)) {
+    const beforePdf = wrong;
+    let count = 0;
+    for (const [dir, want] of [["valid", "valid"], ["outdated", "invalid"], ["zugferd1", "zugferd1"], ["not-einvoice", "not-einvoice"]]) {
+      for (const f of fs.readdirSync(path.join(Z, dir)).filter((n) => n.endsWith(".pdf")).sort()) {
+        count++;
+        const extracted = await pdf.extractInvoice(new Uint8Array(fs.readFileSync(path.join(Z, dir, f))), core.detect);
+        if (extracted.error) { wrong++; console.log(`FAIL PDF ${f}: could not extract (${extracted.error})`); continue; }
+        const r = await core.check(extracted.xml, deps);
+        const errors = r.findings.filter((x) => x.severity === "error").map((x) => x.id);
+        const ok = r.status === want;
+        if (!ok) wrong++;
+        if (!ok || process.env.VERBOSE) console.log(`${ok ? "ok  " : "FAIL"} PDF ${(r.format?.profile || r.format?.root || "?").padEnd(10)} ${f.padEnd(52)} want=${want} got=${r.status} schema=${r.schemaErrors.length} errors=[${errors.join(",")}]`);
+        if (!ok) r.schemaErrors.slice(0, 2).forEach((e) => console.log("       schema:", e.message.slice(0, 180)));
+      }
+    }
+    console.log(`ZUGFeRD / Factur-X PDFs: ${count - (wrong - beforePdf)}/${count} correct`);
+  } else {
+    console.log("ZUGFeRD corpus not present - run test/fetch-zugferd-corpus.sh");
+  }
 
   process.exit(wrong ? 1 : 0);
 })();

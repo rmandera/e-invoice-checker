@@ -1,6 +1,7 @@
 # E-Invoice Checker
 
-A free validator for **XRechnung** and **EN 16931** e-invoices that runs entirely in the browser.
+A free validator for **XRechnung**, **ZUGFeRD** and **Factur-X** e-invoices - XML or hybrid PDF - that runs
+entirely in the browser.
 **The invoice never leaves the visitor's computer** — there is no upload, and the page's Content-Security-Policy
 forbids it from connecting to any other server.
 
@@ -23,8 +24,16 @@ lives in Microsoft Dynamics 365 Business Central and Odoo.
 `npm test` checks every standard instance of the official
 [KoSIT XRechnung 3.0.2 test suite](https://github.com/itplr-kosit/xrechnung-testsuite) — 66 invoices in UBL
 and CII — and expects each to be valid. The suite contains no credit notes, so a UBL credit note (type 381) is
-checked separately, along with known-broken samples that must be caught for the right reason. `npm run test:browser` runs the same checks through the real page in Microsoft Edge and fails if the
-page makes a single request to another origin.
+checked separately, along with known-broken samples that must be caught for the right reason.
+Hybrid PDFs are tested against the public [ZUGFeRD corpus](https://github.com/ZUGFeRD/corpus): 19 current
+EN 16931 PDFs must be valid; 6 written for superseded rules (XRechnung 2.1, a withdrawn address scheme) must be
+rejected; ZUGFeRD 1.0 and the MINIMUM / BASIC WL profiles must be reported as not being e-invoices in Germany.
+The XML is extracted in the browser (`docs/js/pdf-extract.js`) using its built-in decompression, so a PDF never
+leaves the device either. Encrypted PDFs are not supported.
+
+`npm run test:browser` and `test/visitor.cjs` run the same checks through the real page in Microsoft Edge - the
+latter uploading real files on desktop and phone sizes - and fail if the page makes a single request to another
+origin.
 
 ## How it works
 

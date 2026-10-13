@@ -47,6 +47,7 @@ h1, h2, h3 { color: var(--navy); line-height: 1.25; }
 .verdict { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
 .verdict::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: currentColor; }
 .verdict.valid { color: var(--ok); } .verdict.invalid { color: var(--err); } .verdict.unsupported { color: var(--warn); }
+.verdict.zugferd1, .verdict.not-einvoice { color: var(--err); }
 .facts { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 14.5px; }
 .facts b { color: var(--text); font-weight: 600; }
 .again { margin-left: auto; font: inherit; font-size: 14px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--rule); background: transparent; color: var(--text); cursor: pointer; }

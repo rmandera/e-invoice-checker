@@ -30,6 +30,9 @@ jobs:
             https://github.com/itplr-kosit/xrechnung-testsuite/releases/download/v2026-08-31/xrechnung-3.0.2-testsuite-2026-08-31.zip
           mkdir -p test/kosit && unzip -q test/kosit.zip -d test/kosit
 
+      - name: Download ZUGFeRD / Factur-X sample PDFs
+        run: bash test/fetch-zugferd-corpus.sh
+
       - name: Every official instance valid, every broken sample caught
         run: npm test
 
